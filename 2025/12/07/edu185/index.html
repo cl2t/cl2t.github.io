@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="a应该可以推一下找到O(1)个位置可能成为最大的位置然后比一下就好了。当然我懒得思考直接暴力把n * n个位置的答案全部算出来然后比比较了。 b原题说给一个l， r区间加一，但是可以reorder，于是问题转化成给最长的子序列加1，求最长的子序列长度。首先要算出有多少位置有数记为cnt，毕竟只有这些位置需要被加。因为必须做n手，我们贪心地考虑，第一手我们选择一个最长的子序列，后面n - 1手我们都">
+<meta property="og:type" content="article">
+<meta property="og:title" content="edu185">
+<meta property="og:url" content="http://example.com/2025/12/07/edu185/index.html">
+<meta property="og:site_name" content="世界以外的地方">
+<meta property="og:description" content="a应该可以推一下找到O(1)个位置可能成为最大的位置然后比一下就好了。当然我懒得思考直接暴力把n * n个位置的答案全部算出来然后比比较了。 b原题说给一个l， r区间加一，但是可以reorder，于是问题转化成给最长的子序列加1，求最长的子序列长度。首先要算出有多少位置有数记为cnt，毕竟只有这些位置需要被加。因为必须做n手，我们贪心地考虑，第一手我们选择一个最长的子序列，后面n - 1手我们都">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-07T08:25:11.000Z">
+<meta property="article:modified_time" content="2025-12-07T08:35:31.535Z">
+<meta property="article:author" content="cl_2">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2025/12/07/edu185/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2025/12/07/edu185/","path":"2025/12/07/edu185/","title":"edu185"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>edu185 | 世界以外的地方</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">世界以外的地方</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">————永远高唱我歌</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#a"><span class="nav-number">1.</span> <span class="nav-text">a</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b"><span class="nav-number">2.</span> <span class="nav-text">b</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c"><span class="nav-number">3.</span> <span class="nav-text">c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d"><span class="nav-number">4.</span> <span class="nav-text">d</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#e"><span class="nav-number">5.</span> <span class="nav-text">e</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cl_2</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/12/07/edu185/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cl_2">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="世界以外的地方">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="edu185 | 世界以外的地方">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          edu185
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-12-07 16:25:11 / 修改时间：16:35:31" itemprop="dateCreated datePublished" datetime="2025-12-07T16:25:11+08:00">2025-12-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%8A%A0%E8%AE%AD/" itemprop="url" rel="index"><span itemprop="name">加训</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="a"><a href="#a" class="headerlink" title="a"></a>a</h3><p>应该可以推一下找到O(1)个位置可能成为最大的位置然后比一下就好了。当然我懒得思考直接暴力把n * n个位置的答案全部算出来然后比比较了。</p>
+<h3 id="b"><a href="#b" class="headerlink" title="b"></a>b</h3><p>原题说给一个l， r区间加一，但是可以reorder，于是问题转化成给最长的子序列加1，求最长的子序列长度。首先要算出有多少位置有数记为cnt，毕竟只有这些位置需要被加。因为必须做n手，我们贪心地考虑，第一手我们选择一个最长的子序列，后面n - 1手我们都只给一个数加1。那么我们最多一次给del = sum - （n - 1) 长的子序列加1，答案就是min(del, cnt)。需要开ll就一定要开ll！cf太险恶！</p>
+<h3 id="c"><a href="#c" class="headerlink" title="c"></a>c</h3><p>给两个n长的数组q和r，给个k，把r中的数作为余数，q中的数作为商，除数任选；凑出的数不超过k就消去这次的q[i], r[i], 求最多的操作数。显然q，r的顺序本身不影响答案，不妨先将两者分别排序。考虑对于一个余数，除数必然要大于它，现在r数组递增，则要求的除数也递增，那就需要商越小越好。遍历r，为了操作最多次，我们每次贪心地取满足要求的最大的商，把更小的数留到后面用，这样更优，对于r，最小的除数是r + 1,那存在p合法，当 r + p * (r + 1) &lt;= k 推出 k &lt;= (k - r) / (r + 1)， 只需找符合条件的最大的k就好了，只需要在排序后的q数组上二分即可。并且观察到f = (k  - r ) / ( r + 1 ) 单调减，即每次找到的q[i]一定单调向左。</p>
+<h3 id="d"><a href="#d" class="headerlink" title="d"></a>d</h3><p>观察到已经有的v和x值是永远不变的，只有i的值会变，？不确定，于是我们只用考虑？和存在的i；可以注意到如果可以全部填I，一定是最优的，这是答案的一个下界，一种做法是在这个下界的基础上调整，即先考虑全部填I，再把一些位置换成V，又因为V和X的性质完全一样只有值不一样，可以全部当成V考虑再补上本该是X的贡献。（代码还没写，太狗屎了）。</p>
+<h3 id="e"><a href="#e" class="headerlink" title="e"></a>e</h3><p>观察到对于一个区间，如果有奇数个块（多于1）去掉中间块仍有奇数个，如果有偶数个块，去掉两边的块就有奇数个块，于是要使一个区间beautiful，当且仅当这个区间不只有一个块。问题转化为：给m个区间，要求每个区间内的数不完全相同，求能构造多少个n长的数组符合要求。显然，每个数字都有01两种选择，全部独立枚举不可能，考虑dp。令fi为01 再i处跳变且i左边的限制全部满足的方案数，考虑fi可以从fj处转移过来，那可以发现，数组在j处，i处（j &lt; i）跳变，即闭区间[j + 1, i - 1]01情况相同，于是如果存在一个限制在上述区间内，就不满足只在j，i两点跳变，故可以从j转移到i的充要条件是j和i之间没有完整的限制区间。考虑右端点在i左边的左端点最靠右的线段p的左端点是r，r左边的点到i的区间都完整包涵p，故不能从r的左边所有点转移过来，而对于r右边的小于i的点都合法，故可以转移过来。于是fi = sum{fr+1, fi - 1}; 因而我们对于每个点需要维护r；又因为转移是算一个连续段的和，可以算一个f数组的前缀和优化转移，最后f[n + 1]就是答案。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/12/07/1064d2/" rel="prev" title="1064d2">
+                  <i class="fa fa-angle-left"></i> 1064d2
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">cl_2</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
